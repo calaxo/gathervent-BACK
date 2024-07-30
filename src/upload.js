@@ -7,7 +7,7 @@ const storage = multer.diskStorage({
     cb(null, 'src/uploads/'); // Dossier où les fichiers seront enregistrés
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname); // Nom de fichier unique
+    cb(null, Date.now()+file.originalname); // Nom de fichier unique
   }
 });
 

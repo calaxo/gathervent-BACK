@@ -1,0 +1,1 @@
+import{j as r}from"./plugin.js";import"./chunk.js";const o=()=>r.jsxs("div",{children:[r.jsx("h1",{children:"404"}),r.jsx("p",{children:"Page not found"}),r.jsx("p",{children:"Il y a un probleme"})]});export{o as default};

@@ -10,7 +10,7 @@ const serveStaticRecursive = require('./ServeFile.js');
 
 
 
-const port = 4000;
+const port = process.env.PORT ||4000;
 const cron = require('node-cron');
 const fs = require('fs');
 
@@ -24,7 +24,7 @@ const multer = require('multer');
 const upload = require('./upload');
 
 var corsOptions = {
-  origin: 'http://localhost:5173/',
+  origin: 'https://gathervent.axel-cal.fr/',
   optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
 }
 
@@ -34,53 +34,20 @@ app.use( express.urlencoded( {
 } ) )
 app.use(cors(corsOptions))
 
-app.post("/upload", upload.single("file"), (req, res) => {
+app.post("/upload", upload.array('files', 10), (req, res) => {
       // check whether req.file contians the file
       // if not multer is failed to parse so notify the client
-    if (!req.file || !req.body.scripts) {
-        res.status(413).send(`cannot receive multiple files at once or missing information from client`);
-
-
-
-
-
-      return;
-  }
+    
   
-
-      
-      if (req.body.scripts.toString() === "e5x") {
-        e5x.e5x(req, res);
-      }
-  // successfull completion
-
-
-  let base = req.file.filename.toString()
-
-
-  let main = path.parse(base).name
-  
-  let ext = path.parse(base).ext
+    console.log(req);
 
 
 
-  res.status(201).send({ urlretour: `http://localhost:${port}/download/${path.parse(base).name}_done${path.parse(base).ext}` });
-  console.log({ urlretour: `http://localhost:${port}/download/${path.parse(base).name}_done${path.parse(base).ext}` })
-});
+  res.status(201).send("File uploaded successfully");
+  });
 
-app.get("/download/:filename", (req, res) => {
-  res.download(path.join(__dirname, "/uploads/", req.params.filename));
-  console.log("download demande");
-});
 
-// app.use(cors({
-//   origin: 'http://localhost:3000', // Remplacez par votre nom de domaine
-//   optionsSuccessStatus: 200,
-//   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-//   preflightContinue: false,
-//   credentials: true,
-//   allowedHeaders: 'Content-Type,Authorization',
-// }));
+
 
 
 
